@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<style>
+    li {
+        width: 600px;
+        height: 150px;
+        border: 0.01rem solid darkgray;
+        list-style: none;
+    }
+
+    img {
+        width: 60px;
+        height: 60px;
+    }
+
+    div {
+        height: 50%;
+        display: flex;
+        align-items: center;
+        margin-left: 30px;
+    }
+
+    #span1 {
+        margin-left: 10px;
+    }
+
+    #footer {
+        width: 600px;
+        height: 50px;
+        border: 0.01rem solid darkgray;
+        list-style: none;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+<body>
+    <input type="text" name="" id="inp1">
+
+    <button id="btn1">提交</button>
+
+    <ul id="ul1">
+        <li id='footer'>
+            <input type="checkbox" name="" id="quanx">
+            <span>全选/全不选</span>
+            <input type="button" value="删除所选" id="deletes">
+        </li>
+    </ul>
+</body>
+<script>
+    var val = document.getElementById('inp1');
+    var btn1 = document.getElementById('btn1');
+    var ul1 = document.getElementById('ul1');
+    var footers = document.getElementById('footer');
+    var quanx = document.getElementById('quanx');
+
+    btn1.onclick = function () {
+
+        if (val.value == '') {
+            alert('留言内容不能为空');
+            return;
+        }
+
+        var date1 = new Date().toLocaleString(); //日期时间
+
+        var li1 = document.createElement('li');
+        li1.className = 'lis';
+        ul1.insertBefore(li1, footers);
+
+
+        var div1 = document.createElement('div');
+        var img = document.createElement('img');
+        var span1 = document.createElement('span');
+        img.src = './98d23c5866934f5f8f583ec36affeb84!400x400.jpeg';
+        span1.innerHTML = '留言内容' + val.value;
+        span1.id = 'span1';
+        div1.appendChild(img);
+        div1.appendChild(span1);
+        li1.appendChild(div1);
+
+        var div2 = document.createElement('div');
+        var span2 = document.createElement('span');
+        var input1 = document.createElement('input');
+        var input2 = document.createElement('input');
+
+        span2.innerHTML = date1;
+
+        input1.type = 'button';
+        input1.value = '删除';
+        input1.className = 'del';
+
+        input2.type = 'checkbox';
+        input2.className = 'chebox';
+
+        div2.appendChild(span2);
+        div2.appendChild(input1);
+        div2.appendChild(input2);
+
+        li1.appendChild(div2);
+
+        // ul1.innerHTML += `
+        //     <li class='lis'>
+        //         <div>
+        //             <img src="./98d23c5866934f5f8f583ec36affeb84!400x400.jpeg" alt="">
+        //             <span id='span1'>留言内容： ${val.value}</span>
+        //         </div>
+        //         <div>
+        //             <span>${date1}</span>
+        //             <input type='button' value='删除' class='del' />
+        //             <input type="checkbox" class="chebox">
+        //         </div>
+        //     </li>
+        //  `
+
+        //文本框清空
+        val.value = '';
+
+        //点击删除
+        input1.onclick = function () {
+            this.parentNode.parentNode.remove();
+        }
+
+        //反选
+        input2.onclick = function () {
+            var chebox = document.getElementsByClassName('chebox');
+            var count = 0;
+
+            for (var i = 0; i < chebox.length; i++) {
+                //判断新添加的复选框是否选中
+                if (chebox[i].checked == true) {
+                    count++;  //选中的计数
+                }
+            }
+
+            //如果选中的长度跟所有复选框的长度一样就改全选的状态
+            if (chebox.length == count) {
+                quanx.checked = true;
+            } else {
+                quanx.checked = false;
+            }
+
+        }
+
+    }
+
+    //全选
+    quanx.onclick = function () {
+        var chebox = document.getElementsByClassName('chebox');
+
+        for (var i = 0; i < chebox.length; i++) {
+            chebox[i].checked = this.checked;
+        }
+
+    }
+
+
+    //删除所选
+    var deletes = document.getElementById('deletes');
+
+    deletes.onclick = function () {
+        var chebox = document.getElementsByClassName('chebox');
+        var lis = document.getElementsByClassName('lis');
+
+        // for (var i = 0; i < chebox.length; i++) {
+        //     if (chebox[i].checked == true) {
+        //         chebox[i].parentNode.parentNode.remove();
+        //     }
+        // }
+
+        // for (var i = 0; i < chebox.length; i++) {
+        //     if (chebox[i].checked == true) {
+        //         chebox[i].parentNode.parentNode.remove();
+        //     }
+        // }
+
+        for (var i=chebox.length-1;i>=0;i--) {
+            if(chebox[i].checked){
+                chebox[i].parentNode.parentNode.remove();
+            }
+        }
+
+        if (lis.length == 0) {
+            quanx.checked = false;
+        }
+
+    }
+
+
+
+</script>
+
+</html>
